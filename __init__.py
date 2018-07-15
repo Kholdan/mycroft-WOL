@@ -30,7 +30,7 @@ class WOLSkill(MycroftSkill):
     def __init__(self):
         super(WOLSkill, self).__init__(name="WOLSkill")
         
-    @intent_handler(IntentBuilder("").require("WOLKeyword").require("TargetKeyword"))
+    @intent_handler(IntentBuilder("WOLIntent").require("WOLKeyword").require("TargetKeyword"))
     def handle_WOL_intent(self, message):
         #TODO Create config file and initalize list of MAC addresses from file
         
