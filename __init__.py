@@ -55,7 +55,7 @@ class WOLSkill(MycroftSkill):
         
         utterance = message.data.get('utterance')
         repeat = re.sub('^.*?' + message.data['WOL'], '', utterance)
-        self.target(repeat.strip())
+        self.target = repeat.strip()
         
         if message.data["Target"] == "office":
             self.speak_dialog("starting", data={"Target": self.target})
