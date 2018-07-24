@@ -60,7 +60,7 @@ class WOLSkill(MycroftSkill):
         self.target = message.data["Target"]
         
         if message.data["Target"] == "office":
-            self.speak_dialog("starting", data={"Target": self.target})
+            self.speak_dialog("starting", data={"Target": repeat.strip()})
         elif message.data["Target"] == "game server":
             self.speak_dialog("starting", data={"Target": self.target})
         elif message.data["Target"] == "storage server":
