@@ -50,6 +50,7 @@ class WOLSkill(MycroftSkill):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
+
         self.target = message.data["Target"]
         
         if message.data["Target"] == "office":
