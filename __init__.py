@@ -31,7 +31,7 @@ class WOLSkill(MycroftSkill):
         
         # Initialize working variables used within the skill.
         self.count = 0
-        self.target = {"Target": "0"}
+        self.target = "null"
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -50,13 +50,15 @@ class WOLSkill(MycroftSkill):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
-        if message.data["Target"] == "office"
-            self.speak_dialog("starting", data={"Target": message.data["Target"]})
-        elif message.data["Target"] == "game server"
-            self.speak_dialog("starting", data={"Target": message.data["Target"]})
-        elif message.data["Target"] == "storage server"
-            self.speak_dialog("starting", data={"Target": message.data["Target"]})
-        else
+        self.target = message.data["Target"]
+        
+        if message.data["Target"] == "office":
+            self.speak_dialog("starting", data={"Target": self.target})
+        elif message.data["Target"] == "game server":
+            self.speak_dialog("starting", data={"Target": self.target})
+        elif message.data["Target"] == "storage server":
+            self.speak_dialog("starting", data={"Target": self.target})
+        else:
             self.speak_dialog("unable")
 
     #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
