@@ -50,9 +50,9 @@ class WOLSkill(MycroftSkill):
         #    dialogs/en-us/hello.world.dialog
         if message.data["Target"] == "office"
             self.speak_dialog("starting", message.data["Target"], ". enjoy your gaming")
-        else if message.data["Target"] == "game server"
+        elif message.data["Target"] == "game server"
             self.speak_dialog("starting", message.data["Target"], ". go punch trees")
-        else if message.data["Target"] == "storage server"
+        elif message.data["Target"] == "storage server"
             self.speak_dialog("starting", message.data["Target"], ". plex server is ready")
         else
             self.speak_dialog("unable")
