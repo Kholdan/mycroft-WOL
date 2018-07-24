@@ -56,7 +56,7 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": message.data["Target"]})
         elif message.data["Target"] == "storage server"
             self.speak_dialog("starting", data={"Target": message.data["Target"]})
-        else
+        else:
             self.speak_dialog("unable")
 
     #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
