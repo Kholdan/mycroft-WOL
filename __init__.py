@@ -33,7 +33,7 @@ class WOLSkill(MycroftSkill):
         
         # Initialize working variables used within the skill.
         self.count = 0
-        self.target = "null"
+        target = "null"
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -55,10 +55,10 @@ class WOLSkill(MycroftSkill):
         
         utterance = message.data.get('utterance')
         repeat = re.sub('^.*?' + message.data['WOL'], '', utterance)
-        self.target = repeat.strip()
+        target = repeat.strip()
         
         if message.data["Target"] == "office":
-            self.speak_dialog("starting", data={"Target": self.target})
+            self.speak_dialog("starting", data={"Target": target})
         elif message.data["Target"] == "game server":
             self.speak_dialog("starting")
         elif message.data["Target"] == "storage server":
