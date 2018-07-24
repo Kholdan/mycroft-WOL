@@ -45,11 +45,15 @@ class WOLSkill(MycroftSkill):
     #   'Howdy you great big world'
     #   'Greetings planet earth'
     
-    @intent_handler(IntentBuilder("").require("WOL").optionally("Target"))
+    @intent_handler(IntentBuilder("").require("WOL").require("Target"))
     def handle_WOL_intent(self, message):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
+        
+        utterance = message.data.get('utterance')
+        repeat = re.sub('^.*?' + message.data['WOL'], '', utterance)
+        self.speak(repeat.strip())
 
         self.target = message.data["Target"]
         
