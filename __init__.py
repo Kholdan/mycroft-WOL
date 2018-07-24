@@ -55,16 +55,14 @@ class WOLSkill(MycroftSkill):
         
         utterance = message.data.get('utterance')
         repeat = re.sub('^.*?' + message.data['WOL'], '', utterance)
-        self.speak(repeat.strip())
-
-        self.target = message.data["Target"]
+        self.target(repeat.strip())
         
         if message.data["Target"] == "office":
-            self.speak_dialog("starting", data={"Target": repeat.strip()})
+            self.speak_dialog("starting", data={"Target": self.target})
         elif message.data["Target"] == "game server":
-            self.speak_dialog("starting", data={"Target": self.target})
+            self.speak_dialog("starting")
         elif message.data["Target"] == "storage server":
-            self.speak_dialog("starting", data={"Target": self.target})
+            self.speak_dialog("starting")
         else:
             self.speak_dialog("unable")
 
