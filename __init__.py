@@ -43,20 +43,27 @@ class WOLSkill(MycroftSkill):
     #   'Hello world'
     #   'Howdy you great big world'
     #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("WOL"))
+    @intent_handler(IntentBuilder("").require("WOL").require("Target"))
     def handle_WOL_intent(self, message):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("starting")
+        if message.data["Target"] == "office"
+            self.speak_dialog("starting", message.data["Target"], ". enjoy your gaming")
+        else if message.data["Target"] == "game server"
+            self.speak_dialog("starting", message.data["Target"], ". go punch trees")
+        else if message.data["Target"] == "storage server"
+            self.speak_dialog("starting", message.data["Target"], ". plex server is ready")
+        else
+            self.speak_dialog("unable")
 
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})
+    #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
+    #def handle_count_intent(self, message):
+    #    if message.data["Dir"] == "up":
+    #        self.count += 1
+    #    else:  # assume "down"
+    #        self.count -= 1
+    #    self.speak_dialog("count.is.now", data={"count": self.count})
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
