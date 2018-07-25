@@ -94,19 +94,21 @@ class WOLSkill(MycroftSkill):
 
 def wakeonlan(ethernet_address):
     addr_byte = ethernet_address.split(':')
-    hw_addr = struct.pack('bbbbbb',
-        int(addr_byte[0]),
-        int(addr_byte[1]),
-        int(addr_byte[2]),
-        int(addr_byte[3]),
-        int(addr_byte[4]),
-        int(addr_byte[5]))
+    if len(addr_byte) != 6
+        return -1
+    hw_addr = struct.pack('BBBBBB',
+        int(addr_byte[0], 16),
+        int(addr_byte[1], 16),
+        int(addr_byte[2], 16),
+        int(addr_byte[3], 16),
+        int(addr_byte[4], 16),
+        int(addr_byte[5], 16))
     
     msg = ''.join(['FFFFFFFFFFFF', hw_addr *20])
     
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    s.sendto(msg, ('broadcast', 9))
+    s.sendto(msg, ('192.168.2.255', 9))
     s.close()
 
 # The "create_skill()" method is used to create an instance of the skill.
