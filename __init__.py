@@ -38,26 +38,12 @@ class WOLSkill(MycroftSkill):
         
         # Initialize working variables used within the skill.
         self.count = 0
-
-    # The "handle_xxxx_intent" function is triggered by Mycroft when the
-    # skill's intent is matched.  The intent is defined by the IntentBuilder()
-    # pieces, and is triggered when the user's utterance matches the pattern
-    # defined by the keywords.  In this case, the match occurs when one word
-    # is found from each of the files:
-    #    vocab/en-us/Hello.voc
-    #    vocab/en-us/World.voc
-    # In this example that means it would match on utterances like:
-    #   'Hello world'
-    #   'Howdy you great big world'
-    #   'Greetings planet earth'
-    
     
     
     @intent_handler(IntentBuilder("").require("WOL").require("Target"))
     def handle_WOL_intent(self, message):
-        # In this case, respond by simply speaking a canned response.
-        # Mycroft will randomly speak one of the lines from the file
-        #    dialogs/en-us/hello.world.dialog
+        #Determines WOL target, and calls wakeonlan() on target MAC address
+        #TODO - Add ini or conf file to get targets and matching addresses
         
         utterance = message.data.get('utterance')
         repeat = re.sub('^.*?' + message.data['WOL'], '', utterance)
@@ -74,14 +60,6 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": target})
         else:
             self.speak_dialog("unable")
-
-    #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    #def handle_count_intent(self, message):
-    #    if message.data["Dir"] == "up":
-    #        self.count += 1
-    #    else:  # assume "down"
-    #        self.count -= 1
-    #    self.speak_dialog("count.is.now", data={"count": self.count})
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
@@ -106,6 +84,7 @@ def wakeonlan(ethernet_address):
     
     msg = b'\xff' * 6 + hw_addr * 16
     
+    #TODO - Put port in ini or conf
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     s.sendto(msg, ('192.168.2.255', 9))
