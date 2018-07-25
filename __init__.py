@@ -31,6 +31,17 @@ LOG = getLogger(__name__)
 
 # TODO: Change "Template" to a unique name for your skill
 class WOLSkill(MycroftSkill):
+    
+        def wakeonlan(ethernet_address)
+        addr_byte = ethernet_address.split(':')
+        hw_addr = struct.pack('bbbbbb', int(addr_byte[0], 16),int(addr_byte[1],int(addr_byte[2],int(addr_byte[3],int(addr_byte[4],int(addr_byte[5]))
+        
+        msg = '\xff' * 6 + hw_addr * 16
+        
+        s = socket.socket(socket.af_inet, socket.sock_dgram)
+        s.setsockopt(socket.sol_socket, socket.so_broadcast, 1)
+        s.sendto(msg, ('<broadcast>', 9))
+        s.close()
 
     # The constructor of the skill, which calls MycroftSkill's constructor
     def __init__(self):
@@ -73,17 +84,6 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": target})
         else:
             self.speak_dialog("unable")
-            
-    def wakeonlan(ethernet_address)
-        addr_byte = ethernet_address.split(':')
-        hw_addr = struct.pack('bbbbbb', int(addr_byte[0], 16),int(addr_byte[1],int(addr_byte[2],int(addr_byte[3],int(addr_byte[4],int(addr_byte[5]))
-        
-        msg = '\xff' * 6 + hw_addr * 16
-        
-        s = socket.socket(socket.af_inet, socket.sock_dgram)
-        s.setsockopt(socket.sol_socket, socket.so_broadcast, 1)
-        s.sendto(msg, ('<broadcast>', 9))
-        s.close()
 
     #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
     #def handle_count_intent(self, message):
