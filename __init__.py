@@ -16,12 +16,12 @@
 # along with Mycroft Core.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import struct
+import socket
 
-from wakeonlan import wol
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import getLogger
-from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_BROADCAST
 
 __author__ = 'kholdan'
 LOG = getLogger(__name__)
@@ -69,10 +69,21 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": target})
             LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
-            wol.send_magic_packet('00.23.7d.60.cd.24')
+            wakeonlan(00:23:7d:60:cd:24)
             self.speak_dialog("starting", data={"Target": target})
         else:
             self.speak_dialog("unable")
+            
+    def wakeonlan(ethernet_address)
+        addr_byte = ethernet_address.split(':')
+        hw_addr = struct.pack('bbbbbb', int(addr_byte[0], 16),int(addr_byte[1],int(addr_byte[2],int(addr_byte[3],int(addr_byte[4],int(addr_byte[5]))
+        
+        msg = '\xff' * 6 + hw_addr * 16
+        
+        s = socket.socket(socket.af_inet, socket.sock_dgram)
+        s.setsockopt(socket.sol_socket, socket.so_broadcast, 1)
+        s.sendto(msg, ('<broadcast>', 9))
+        s.close()
 
     #@intent_handler(IntentBuilder("").require("Count").require("Dir"))
     #def handle_count_intent(self, message):
