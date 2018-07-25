@@ -19,7 +19,6 @@ import re
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
-from mycroft.util.log import LOGGER
 from mycroft.util.log import getLogger
 
 __author__ = 'kholdan'
@@ -63,13 +62,13 @@ class WOLSkill(MycroftSkill):
         
         if message.data["Target"] == "office":
             self.speak_dialog("starting", data={"Target": target})
-            LOGGER.debug("Office code running")
+            LOG.debug("Office code running")
         elif message.data["Target"] == "game server":
             self.speak_dialog("starting", data={"Target": target})
-            LOGGER.debug("Game server code running")
+            LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
             self.speak_dialog("starting", data={"Target": target})
-            LOGGER.debug("Storage server code running")
+            LOG.debug("Storage server code running")
         else:
             self.speak_dialog("unable")
 
