@@ -71,7 +71,7 @@ class WOLSkill(MycroftSkill):
             LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
             self.speak_dialog("starting", data={"Target": target})
-            magicpacket = 'FFFFFFFFFFFF' + '00237D60CD24' * 16
+            magicpacket = '\xFF\xFF\xFF\xFF\xFF\xFF' + '\x00\x23\x7d\x60\xcd\x24' * 16
             
             sock = socket(AF_INET, SOCK_DGRAM)
             sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
