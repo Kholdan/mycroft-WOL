@@ -38,7 +38,6 @@ class WOLSkill(MycroftSkill):
         
         # Initialize working variables used within the skill.
         self.count = 0
-        target = "null"
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -52,16 +51,7 @@ class WOLSkill(MycroftSkill):
     #   'Howdy you great big world'
     #   'Greetings planet earth'
     
-    def wakeonlan(ethernet_address):
-        addr_byte = ethernet_address.split(':')
-        hw_addr = struct.pack('bbbbbb', int(addr_byte[0], 16),int(addr_byte[1]),int(addr_byte[2]),int(addr_byte[3]),int(addr_byte[4]),int(addr_byte[5]))
-        
-        msg = '\xff' * 6 + hw_addr * 16
-        
-        s = socket.socket(socket.af_inet, socket.sock_dgram)
-        s.setsockopt(socket.sol_socket, socket.so_broadcast, 1)
-        s.sendto(msg, ('<broadcast>', 9))
-        s.close()
+    
     
     @intent_handler(IntentBuilder("").require("WOL").require("Target"))
     def handle_WOL_intent(self, message):
@@ -80,7 +70,7 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": target})
             LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
-            wakeonlan(00:23:7d:60:cd:24)
+            wakeonlan('00:23:7d:60:cd:24')
             self.speak_dialog("starting", data={"Target": target})
         else:
             self.speak_dialog("unable")
@@ -101,6 +91,17 @@ class WOLSkill(MycroftSkill):
     #
     def stop(self):
         return True
+
+def wakeonlan(ethernet_address):
+    addr_byte = ethernet_address.split(':')
+    hw_addr = struct.pack('bbbbbb', int(addr_byte[0], 16),int(addr_byte[1]),int(addr_byte[2]),int(addr_byte[3]),int(addr_byte[4]),int(addr_byte[5]))
+    
+    msg = '\xff' * 6 + hw_addr * 16
+    
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.sendto(msg, ('<broadcast>', 9))
+    s.close()
 
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
