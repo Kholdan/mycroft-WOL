@@ -75,7 +75,7 @@ class WOLSkill(MycroftSkill):
             
             sock = socket(AF_INET, SOCK_DGRAM)
             sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
-            sock.sendto(magicpacket, ('<broadcast>', 9))
+            sock.sendto(magicpacket.encode('utf-8'), ('<broadcast>', 9))
             sock.close()
         else:
             self.speak_dialog("unable")
