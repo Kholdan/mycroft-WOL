@@ -19,6 +19,7 @@ import re
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
+from mycroft.util.log import LOGGER
 from mycroft.util.log import getLogger
 
 __author__ = 'kholdan'
