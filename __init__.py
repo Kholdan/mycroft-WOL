@@ -94,7 +94,7 @@ class WOLSkill(MycroftSkill):
 
 def wakeonlan(ethernet_address):
     addr_byte = ethernet_address.split(':')
-    if len(addr_byte) != 6
+    if len(addr_byte) != 6:
         return -1
     hw_addr = struct.pack('BBBBBB',
         int(addr_byte[0], 16),
