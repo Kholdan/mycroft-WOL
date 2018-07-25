@@ -17,6 +17,7 @@
 
 import re
 
+from wakeonlan import wol
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import getLogger
@@ -38,8 +39,6 @@ class WOLSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.count = 0
         target = "null"
-        
-        magicpacket = '\xFF\xFF\xFF\xFF\xFF\xFF' * 16
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -70,13 +69,8 @@ class WOLSkill(MycroftSkill):
             self.speak_dialog("starting", data={"Target": target})
             LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
+            wol.send_magic_packet('00.23.7d.60.cd.24')
             self.speak_dialog("starting", data={"Target": target})
-            magicpacket = '\xFF\xFF\xFF\xFF\xFF\xFF' + '\x00\x23\x7d\x60\xcd\x24' * 16
-            
-            sock = socket(AF_INET, SOCK_DGRAM)
-            sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
-            sock.sendto(magicpacket.encode('utf-8'), ('<broadcast>', 9))
-            sock.close()
         else:
             self.speak_dialog("unable")
 
