@@ -59,10 +59,13 @@ class WOLSkill(MycroftSkill):
         
         if message.data["Target"] == "office":
             self.speak_dialog("starting", data={"Target": target})
+            LOGGER.debug("Office code running")
         elif message.data["Target"] == "game server":
-            self.speak_dialog("starting")
+            self.speak_dialog("starting", data={"Target": target})
+            LOGGER.debug("Game server code running")
         elif message.data["Target"] == "storage server":
-            self.speak_dialog("starting")
+            self.speak_dialog("starting", data={"Target": target})
+            LOGGER.debug("Storage server code running")
         else:
             self.speak_dialog("unable")
 
