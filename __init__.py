@@ -95,12 +95,12 @@ class WOLSkill(MycroftSkill):
 def wakeonlan(ethernet_address):
     addr_byte = ethernet_address.split(':')
     hw_addr = struct.pack('bbbbbb',
-        int(addr_byte[0], 16),
-        int(addr_byte[1], 16),
-        int(addr_byte[2], 16),
-        int(addr_byte[3], 16),
-        int(addr_byte[4], 16),
-        int(addr_byte[5], 16))
+        int(addr_byte[0]),
+        int(addr_byte[1]),
+        int(addr_byte[2]),
+        int(addr_byte[3]),
+        int(addr_byte[4]),
+        int(addr_byte[5]))
     
     msg = ''.join(['FFFFFFFFFFFF', hw_addr *20])
     
