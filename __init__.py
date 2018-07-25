@@ -20,6 +20,7 @@ import re
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import getLogger
+from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_BROADCAST
 
 __author__ = 'kholdan'
 LOG = getLogger(__name__)
@@ -37,6 +38,8 @@ class WOLSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.count = 0
         target = "null"
+        
+        magicpacket = '\xFF\xFF\xFF\xFF\xFF\xFF' * 16
 
     # The "handle_xxxx_intent" function is triggered by Mycroft when the
     # skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -68,7 +71,12 @@ class WOLSkill(MycroftSkill):
             LOG.debug("Game server code running")
         elif message.data["Target"] == "storage server":
             self.speak_dialog("starting", data={"Target": target})
-            LOG.debug("Storage server code running")
+            magicpacket = '\xFF\xFF\xFF\xFF\xFF\xFF' + '\x00\x23\x7D\x60\xCD\x24' * 16
+            
+            sock = socket(AF_INET, SOCK_DGRAM)
+            sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
+            sock.sendto(magicpacket, ('<broadcast>', 9))
+            sock.close()
         else:
             self.speak_dialog("unable")
 
@@ -86,8 +94,8 @@ class WOLSkill(MycroftSkill):
     # need to implement stop, you should return True to indicate you handled
     # it.
     #
-    # def stop(self):
-    #    return False
+    def stop(self):
+        return True
 
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
