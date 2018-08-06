@@ -50,8 +50,8 @@ class WOLSkill(MycroftSkill):
         target = repeat.strip()
         
         if message.data["Target"] == "my computer":
-            self.speak_dialog("starting", data={"Target": target})
             wakeonlan('10:c3:7b:6d:52:f8')
+            self.speak_dialog("starting", data={"Target": target})
         elif message.data["Target"] == "game server":
             self.speak_dialog("starting", data={"Target": target})
             LOG.debug("Game server code running")
